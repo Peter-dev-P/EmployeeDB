@@ -50,4 +50,4 @@ app.MapControllers();
 
 app.Run();
 
-//Hecho por Pedro Padilla
+//Hecho por Pedro Padilla el 22 de octubre
