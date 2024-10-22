@@ -19,19 +19,19 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '3.1'
+          dotnet-version: '8.0' # Cambiado a la versión 8.0
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build C:\Users\Peter\source\repos\EmployeeDB\EmployeeDB\EmployeeDB.csproj --configuration Release # Ruta específica del archivo .csproj
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish C:\Users\Peter\source\repos\EmployeeDB\EmployeeDB\EmployeeDB.csproj -c Release -o ./myapp # Publicar a la carpeta 'myapp'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./myapp # Asegúrate que la ruta sea correcta
 
   deploy:
     runs-on: windows-latest
@@ -50,7 +50,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'EmployeeDB20241022135838'
+          app-name: 'EmployeeDB20241022135838' # Asegúrate que este nombre coincida con tu aplicación en Azure
           slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }}
+          package: ./myapp # Cambiado para apuntar a la carpeta de publicación
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }} # Verifica que este secreto sea correcto
