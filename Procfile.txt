@@ -1,1 +1,1 @@
-web: dotnet employeedbfortest.dll
+web: dotnet EmployeeDB.dll

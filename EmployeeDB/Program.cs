@@ -3,7 +3,9 @@ using EmployeeDB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls($"http://*:{port}");
 
 // Add services to the container.
 builder.Services.AddControllers()
