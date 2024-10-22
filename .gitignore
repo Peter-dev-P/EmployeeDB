@@ -1,0 +1,33 @@
+﻿# Visual Studio
+.vs/
+*.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bin/
+obj/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# Otros
+*.db
+*.sqlite
