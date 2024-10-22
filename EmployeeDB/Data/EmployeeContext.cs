@@ -9,6 +9,8 @@ namespace EmployeeDB.Data
         {
         }
 
+       
+
         // Tabla de empleados
         public DbSet<Employee> Employees { get; set; }
 
