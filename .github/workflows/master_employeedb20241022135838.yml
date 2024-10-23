@@ -22,10 +22,10 @@ jobs:
           dotnet-version: '8.0'  # Cambiado para que coincida con tu versión de .NET
 
       - name: Build with dotnet
-        run: dotnet build "C:\Users\Peter\source\repos\EmployeeDB\EmployeeDB\EmployeeDB.csproj" --configuration Release
+        run: dotnet build "EmployeeDB/EmployeeDB.csproj" --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish "C:\Users\Peter\source\repos\EmployeeDB\EmployeeDB\EmployeeDB.csproj" -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish "EmployeeDB/EmployeeDB.csproj" -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
