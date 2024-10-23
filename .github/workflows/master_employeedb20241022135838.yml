@@ -19,13 +19,19 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0' 
+          dotnet-version: '8.0'
 
       - name: Build with dotnet
         run: dotnet build "EmployeeDB/EmployeeDB.csproj" --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish "EmployeeDB/EmployeeDB.csproj" -c Release -o ${{ github.workspace }}/myapp
+        run: dotnet publish "EmployeeDB/EmployeeDB.csproj" -c Release -o ${{github.workspace}}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{github.workspace}}/myapp
 
   deploy:
     runs-on: windows-latest
@@ -35,11 +41,16 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'EmployeeDB20241022135838'  
+          app-name: 'EmployeeDB20241022135838'
           slot-name: 'Production'
-          package: ${{ github.workspace }}/myapp
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }}  
+          package: ${{github.workspace}}/myapp
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }}
