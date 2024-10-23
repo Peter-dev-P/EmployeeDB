@@ -12,18 +12,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new DateTimeConverter()); // Añadir el convertidor de fecha
     });
 
-// Configurar CORS si es necesario
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
-
 // Aprender más sobre la configuración de Swagger/OpenAPI en https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -43,7 +31,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection(); // Redirige HTTP a HTTPS
-app.UseCors("AllowAll"); // Habilitar CORS
 
 app.UseSwagger(); // Habilita Swagger
 app.UseSwaggerUI(c =>

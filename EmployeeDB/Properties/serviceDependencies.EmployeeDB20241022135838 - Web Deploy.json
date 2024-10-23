@@ -1,9 +1,5 @@
 {
   "dependencies": {
-    "apis1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/EmployeeDBapi/apis/EmployeeDB",
-      "type": "apis.azure"
-    },
     "mssql1": {
       "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/EmployeeDB20241022135838/providers/Microsoft.ServiceLinker/linkers/ConnectionStrings_DA4D5C5916",
       "secretStore": "AzureAppSettings",
@@ -11,6 +7,11 @@
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings",
       "dynamicId": null
+    },
+    "apis1": {
+      "apiEndpoint": "https://employeedbapi.azure-api.net/",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/EmployeeDBapi/apis/EmployeeDB",
+      "type": "apis.azure"
     }
   }
 }
