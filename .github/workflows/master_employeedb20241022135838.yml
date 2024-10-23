@@ -53,4 +53,4 @@ jobs:
           app-name: 'EmployeeDB20241022135838'
           slot-name: 'Production'
           package: ${{github.workspace}}/myapp
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }}
