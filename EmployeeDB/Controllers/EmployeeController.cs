@@ -19,13 +19,13 @@
         }
 
         // Crea un empleado
-        [HttpPost("Add-an-employee")]
-        public async Task<IActionResult> AddEmployee(Employee employee)
+        [HttpPost]
+        public async Task<IActionResult> AddEmployee([FromBody] Employee employee)
         {
-            // Validación de rfc
+            // Validación de RFC
             var validator = new EmployeeValidator();
             var validationResult = validator.Validate(employee);
-            if (!validationResult.IsValid)//rfc no valido
+            if (!validationResult.IsValid) // RFC no válido
             {
                 return BadRequest(validationResult.Errors);
             }
@@ -37,19 +37,20 @@
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee);
         }
 
-        // Obtener empleados ordenados por fecha de nacimiento y filtrados opcionalmente por nombre
-        [HttpGet("Employees ordered by birth date while also having the option to search by name")]
+        // Obtener todos los empleados, filtrados opcionalmente por nombre
+        [HttpGet]
         public async Task<IActionResult> GetEmployees(string name = "")
         {
-            var employees = _context.Employees
+            var employees = await _context.Employees
                 .Where(e => string.IsNullOrEmpty(name) || e.Name.Contains(name))
-                .OrderBy(e => e.BornDate);
+                .OrderBy(e => e.BornDate)
+                .ToListAsync();
 
-            return Ok(await employees.ToListAsync());
+            return Ok(employees);
         }
 
-        // Obtener un empleado usando el ID
-        [HttpGet("Search-employee using/{id}")]
+        // Obtener un empleado por ID
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -61,10 +62,10 @@
         }
 
         // Actualizar un empleado
-        [HttpPut("update-an-employee/{id}")]
-        public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] Employee employee)
         {
-            if (id != employee.ID) //id proporcionado no coincide con BD
+            if (id != employee.ID) // ID proporcionado no coincide con el de la BD
             {
                 return BadRequest();
             }
@@ -90,8 +91,8 @@
             return NoContent();
         }
 
-        // Eliminar a un empleado
-        [HttpDelete("delete-an-employee from the database/{id}")]
+        // Eliminar un empleado
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -111,5 +112,4 @@
             return _context.Employees.Any(e => e.ID == id);
         }
     }
-
 }

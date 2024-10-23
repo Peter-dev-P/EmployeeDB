@@ -3,31 +3,37 @@ using EmployeeDB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 var builder = WebApplication.CreateBuilder(args);
-//builder.WebHost.UseUrls($"http://*:{port}");
 
-// Add services to the container.
+// Agregar servicios al contenedor.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new DateTimeConverter()); // Añadir el convertidor de fecha
     });
 
+// Configurar CORS si es necesario
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Aprender más sobre la configuración de Swagger/OpenAPI en https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee API", Version = "v1" });
 });
 
-
 // Registra el DbContext y configura la cadena de conexión
 builder.Services.AddDbContext<EmployeeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 var app = builder.Build();
 
@@ -37,17 +43,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection(); // Redirige HTTP a HTTPS
+app.UseCors("AllowAll"); // Habilitar CORS
+
 app.UseSwagger(); // Habilita Swagger
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee API V1");
-    c.RoutePrefix = string.Empty;
+    c.RoutePrefix = string.Empty; // Swagger en la raíz
 });
 
-app.UseAuthorization();
+app.UseAuthorization(); // Asegúrate de que la autorización esté habilitada
 
-app.MapControllers();
+app.MapControllers(); // Mapea los controladores
 
 app.Run();
-
-//Hecho por Pedro Padilla el 22 de octubre de 2024 en c#
