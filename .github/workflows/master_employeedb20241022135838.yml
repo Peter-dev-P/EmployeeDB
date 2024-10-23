@@ -22,7 +22,7 @@ jobs:
         run: dotnet build "EmployeeDB/EmployeeDB.csproj" --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish "EmployeeDB/EmployeeDB.csproj" -c Release -o ${{github.workspace}}/myapp --self-contained false
+        run: dotnet publish "EmployeeDB/EmployeeDB.csproj" -c Release -o ${{github.workspace}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
