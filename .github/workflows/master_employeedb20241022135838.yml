@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - EmployeeDB
 
 on:
@@ -50,7 +47,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'EmployeeDB20241022135838'
+          app-name: 'EmployeeDB20241022135838'  
           slot-name: 'Production'
           package: ${{github.workspace}}/myapp
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B002DD7716441608A7490E759C42466 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} 
