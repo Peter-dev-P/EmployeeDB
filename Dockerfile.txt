@@ -1,0 +1,23 @@
+# Usa la imagen base de ASP.NET Core
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+# Usa la imagen SDK de .NET para la etapa de construcción
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["EmployeeDB/EmployeeDB.csproj", "EmployeeDB/"]
+RUN dotnet restore "EmployeeDB/EmployeeDB.csproj"
+COPY . .
+WORKDIR "/src/EmployeeDB"
+RUN dotnet build "EmployeeDB.csproj" -c Release -o /app/build
+
+# Publica la aplicación
+FROM build AS publish
+RUN dotnet publish "EmployeeDB.csproj" -c Release -o /app/publish
+
+# Prepara la imagen final
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "EmployeeDB.dll"]
