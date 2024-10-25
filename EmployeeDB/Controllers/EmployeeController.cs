@@ -18,11 +18,11 @@
             _context = context;
         }
 
-        // Crea un empleado
+        // Crea a un empleado
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] Employee employee)
         {
-            // Validación de RFC
+            // Validación del RFC
             var validator = new EmployeeValidator();
             var validationResult = validator.Validate(employee);
             if (!validationResult.IsValid) // RFC no válido
@@ -37,7 +37,7 @@
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee);
         }
 
-        // Obtener todos los empleados, filtrados opcionalmente por nombre
+        // Obtener todos los empleados ordenados por fecha de nacimiento, filtrados opcionalmente por nombre
         [HttpGet]
         public async Task<IActionResult> GetEmployees(string name = "")
         {
@@ -49,7 +49,7 @@
             return Ok(employees);
         }
 
-        // Obtener un empleado por ID
+        // Obtener a un empleado por ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
@@ -61,7 +61,7 @@
             return Ok(employee);
         }
 
-        // Actualizar un empleado
+        // Actualizar a un empleado
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] Employee employee)
         {
@@ -91,7 +91,7 @@
             return NoContent();
         }
 
-        // Eliminar un empleado
+        // Eliminar a un empleado
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
